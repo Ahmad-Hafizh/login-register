@@ -1,7 +1,42 @@
-import React from 'react';
+'use client';
+import React, { useRef } from 'react';
 import FormInput from '@/components/FormInput';
+import { callAPI } from '../../config/axios';
 
-const SignIn: React.FC = () => {
+interface ISignInProps {}
+
+const SignIn: React.FC<ISignInProps> = (props) => {
+  // const router = useRouter();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // fetching base database to spesific prop from the db
+
+  const onSignIn = async () => {
+    // if (emailRef.current && passwordRef.current) {
+    //   setEmail(emailRef.current.value);
+    //   setPassword(passwordRef.current.value);
+    // }
+    // console.log(email, password);
+    try {
+      // try {
+      //   const response = await axios.get('baseURL/users');
+      //   setData(response.data);
+      // } karena sudah ada function callAPI maka tidak perlu mendeclare baseURl
+      const response = await callAPI.get(`/users?email=${emailRef.current?.value}&password=${passwordRef.current?.value}`);
+      console.log(response.data);
+      // local storage hanya bisa menyimpan string jika object tidak diubah maka local storage akan menyimpan [object,object]
+      // JSON.stringify akan merubah object json menjadi string yang sesuai dengan aturan object
+      // local storage tidak memancing re-render
+      // maka gunakan redux
+      localStorage.setItem('dataUser', JSON.stringify(response.data[0]));
+      // router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-full min-h-screen h-full lg:h-screen  p-5 lg:p-10 flex flex-col lg:flex-row justify-center items-start bg-gray-950 gap-10 lg:gap-0">
       <div className="w-full lg:w-[45%] h-full flex flex-col justify-center items-center lg:items-start gap-7 md:gap-10 md:px-16 text-center lg:text-left">
@@ -12,8 +47,8 @@ const SignIn: React.FC = () => {
       <div className="w-full lg:w-[55%] h-full bg-white text-black rounded-3xl px-7 lg:px-20 py-7 flex flex-col justify-center items-center lg:items-start gap-10">
         <h2 className="text-4xl">Sign in now</h2>
         <div className="flex flex-col justify-start items-center gap-2 text-gray-700 w-full">
-          <FormInput type="text" label="Email" />
-          <FormInput type="password" label="Password" req="Use 6 or more characters with a mix of letter, numbers & symbols" />
+          <FormInput type="text" label="Email" ref={emailRef} />
+          <FormInput type="password" label="Password" req="Use 6 or more characters with a mix of letter, numbers & symbols" ref={passwordRef} />
         </div>
         <div className="flex flex-col gap-4 justify-start items-start">
           <div className="flex items-start justify-center gap-2">
@@ -28,10 +63,12 @@ const SignIn: React.FC = () => {
           </div>
         </div>
         <div className="flex flex-col lg:flex-row items-center justify-center gap-2 w-full lg:w-auto">
-          <button className="px-6 py-3 bg-gray-600 rounded-full text-white w-full lg:w-auto">Sign in</button>
+          <button className="px-6 py-3 bg-gray-600 rounded-full text-white w-full lg:w-auto" type="button" onClick={onSignIn}>
+            Sign in
+          </button>
           <p>
             Dont have an account?
-            <a href="/sign-in" className="underline">
+            <a href="/sign-up" className="underline">
               sign up
             </a>
           </p>
