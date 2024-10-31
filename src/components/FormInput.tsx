@@ -39,7 +39,7 @@ const FormInput: React.FC<IProps> = ({ type, label, req, placeholder }) => {
             <span>{buttonText}</span>
           </button>
         </div>
-        <input type={activeType} className="border w-full p-2 rounded-md" value={placeholder} />
+        <input type={activeType} className="border w-full p-2 rounded-md" placeholder={placeholder} />
         <label className="text-sm">{req}</label>
       </div>
     );
