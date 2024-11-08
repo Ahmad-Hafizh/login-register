@@ -4,8 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { callAPI } from '@/config/axios';
 import PostCard from '@/components/PostCard';
 import UserCard from '@/components/UserCard';
+import { useRouter } from 'next/navigation';
 
-const Post = () => {
+const PostPage = () => {
+  const router = useRouter();
   const [dataPost, setDataPost] = useState<any>([]);
   const [dataUser, setDataUser] = useState<any>([]);
   const [title, setTitle] = useState<string>('');
@@ -86,9 +88,21 @@ const Post = () => {
           </div>
         </div>
         <hr className="border w-full" />
-        <div className="flex flex-col items-start justify-start gap-4 mb-10">
+        <div className="flex flex-col-reverse items-start justify-start gap-4 mb-10">
           {dataPost.map((e: any, i: number) => {
-            return <PostCard id={e.id} title={e.title} body={e.body} key={i} />;
+            // ? = bersifat query boleh ada boleh ngga
+            return (
+              <PostCard
+                id={e.id}
+                title={e.title}
+                body={e.body}
+                key={i}
+                //request parameter query
+                // onClick={() => router.push(`/post/detail?id=${e.id}`)}
+                // request parameter
+                onClick={() => router.push(`/post/${e.id}`)}
+              />
+            );
           })}
         </div>
       </div>
@@ -101,4 +115,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default PostPage;

@@ -3,16 +3,17 @@
 import React, { useState } from 'react';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 interface IProps {
+  id: string;
   type: string;
   label: string;
   req?: string;
   placeholder?: string;
-  ref?: any;
-  // emailRef?: any;
-  // passwordRef?: any;
+  // ref?: any;
+  value?: string;
+  onChange?: (e: any) => void;
 }
 
-const FormInput: React.FC<IProps> = ({ type, label, req, placeholder, ref }) => {
+const FormInput: React.FC<IProps> = ({ id, value, type, label, req, placeholder, onChange }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   if (type === 'password') {
@@ -38,12 +39,13 @@ const FormInput: React.FC<IProps> = ({ type, label, req, placeholder, ref }) => 
             onClick={() => {
               setIsVisible(!isVisible);
             }}
+            type="button"
           >
             {icon}
             <span>{buttonText}</span>
           </button>
         </div>
-        <input type={activeType} className="border w-full p-2 rounded-md" placeholder={placeholder} ref={ref} />
+        <input type={activeType} className="border w-full p-2 rounded-md" placeholder={placeholder} id={id} name={id} value={value} onChange={onChange} />
         <label className="text-sm">{req}</label>
       </div>
     );
@@ -51,7 +53,7 @@ const FormInput: React.FC<IProps> = ({ type, label, req, placeholder, ref }) => 
     return (
       <div className="w-full">
         <label>{label}</label>
-        <input type={type} className="border w-full p-2 rounded-md" placeholder={placeholder} ref={ref} />
+        <input type={type} className="border w-full p-2 rounded-md" placeholder={placeholder} id={id} name={id} value={value} onChange={onChange} />
       </div>
     );
   }
