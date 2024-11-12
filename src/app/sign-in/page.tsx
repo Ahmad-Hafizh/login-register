@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/lib/redux/hooks';
 import { setSignIn } from '@/lib/redux/features/userSlice';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { getPostList } from '@/lib/redux/features/postSlice';
 
 const SignInPage = () => {
   const router = useRouter();
@@ -32,11 +33,12 @@ const SignInPage = () => {
       // } karena sudah ada function callAPI maka tidak perlu mendeclare baseURl
 
       const response = await callAPI.get(`/users?email=${emailRef.current?.value}&password=${passwordRef.current?.value}`);
-      console.log(response.data);
+      // console.log(response.data);
 
       // store data to global store redux
       // useAppDispatch()(setSignIn(response.data[0])) chaining function yang mereturn function
       dispatch(setSignIn({ ...response.data[0], isAuth: true }));
+      dispatch(getPostList());
 
       // local storage hanya bisa menyimpan string jika object tidak diubah maka local storage akan menyimpan [object,object]
       // JSON.stringify akan merubah object json menjadi string yang sesuai dengan aturan object

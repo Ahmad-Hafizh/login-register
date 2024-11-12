@@ -5,6 +5,7 @@ import { useAppSelector } from '@/lib/redux/hooks';
 import React, { useContext, useEffect } from 'react';
 import { useAppDispatch } from '@/lib/redux/hooks';
 import { setSignIn } from '@/lib/redux/features/userSlice';
+import { getPostList } from '@/lib/redux/features/postSlice';
 // useAppSelector bertujuan untuk mengambil value dari store
 
 interface INvavbarProps {}
@@ -30,6 +31,7 @@ const Navbar: React.FC<INvavbarProps> = (props) => {
         const res = await callAPI.get(`/users?id=${JSON.parse(tokenData)?.id}`);
         dispatch(setSignIn({ ...res.data[0], isAuth: true }));
         localStorage.setItem('dataUser', JSON.stringify(res.data[0]));
+        dispatch(getPostList());
       } else {
         dispatch(setSignIn({ isAuth: false }));
       }

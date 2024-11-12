@@ -6,6 +6,10 @@ interface IUser {
   email: string;
   name: string;
   isAuth?: boolean;
+  gender?: string;
+  country?: string;
+  language?: string;
+  timeZone?: string;
 }
 // mereset data ke dafault saat log out
 const initialData: IUser = {
@@ -35,7 +39,7 @@ const userSlice = createSlice({
     },
   },
 });
-// export action
+// export action dipake di children destructure
 export const { setSignIn, setSignOut } = userSlice.actions;
-// export reducer
+// export reducer init di store
 export default userSlice.reducer;

@@ -8,12 +8,12 @@ interface IProps {
   label: string;
   req?: string;
   placeholder?: string;
-  // ref?: any;
+  ref?: any;
   value?: string;
   onChange?: (e: any) => void;
 }
 
-const FormInput: React.FC<IProps> = ({ id, value, type, label, req, placeholder, onChange }) => {
+const FormInput: React.FC<IProps> = ({ ref, id, value, type, label, req, placeholder, onChange }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   if (type === 'password') {
@@ -45,7 +45,7 @@ const FormInput: React.FC<IProps> = ({ id, value, type, label, req, placeholder,
             <span>{buttonText}</span>
           </button>
         </div>
-        <input type={activeType} className="border w-full p-2 rounded-md" placeholder={placeholder} id={id} name={id} value={value} onChange={onChange} />
+        <input type={activeType} className="border w-full p-2 rounded-md" placeholder={placeholder} id={id} name={id} value={value} onChange={onChange} ref={ref} />
         <label className="text-sm">{req}</label>
       </div>
     );
@@ -53,7 +53,7 @@ const FormInput: React.FC<IProps> = ({ id, value, type, label, req, placeholder,
     return (
       <div className="w-full">
         <label>{label}</label>
-        <input type={type} className="border w-full p-2 rounded-md" placeholder={placeholder} id={id} name={id} value={value} onChange={onChange} />
+        <input type={type} className="border w-full p-2 rounded-md" placeholder={placeholder} id={id} name={id} value={value} onChange={onChange} ref={ref} />
       </div>
     );
   }

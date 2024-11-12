@@ -5,33 +5,38 @@ import { callAPI } from '@/config/axios';
 import PostCard from '@/components/PostCard';
 import UserCard from '@/components/UserCard';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+// import { addPostData, getPostList } from '@/lib/redux/features/postSlice';
 
 const PostPage = () => {
+  // const dispatch = useAppDispatch();
   const router = useRouter();
   const [dataPost, setDataPost] = useState<any>([]);
   const [dataUser, setDataUser] = useState<any>([]);
   const [title, setTitle] = useState<string>('');
   const [body, setBody] = useState<string>('');
   const [countBody, setCountBody] = useState<number>(0);
+  const post = useAppSelector((state) => state.postReducer);
 
-  useEffect(() => {
-    getPost();
-  }, []);
+  // useEffect(() => {
+  //   // dispatch(getPostList());
+  // }, []);
 
-  const getPost = async () => {
-    try {
-      const responsePost = await callAPI.get('/posts');
-      const responseUser = await callAPI.get('/users');
-      // console.log(responsePost.data);
-      // localStorage.setItem('dataPost', JSON.stringify(responsePost.data));
-      // console.log(localStorage);
+  // const getPost = async () => {
+  //   try {
+  //     const responsePost = await callAPI.get('/posts');
+  //     const responseUser = await callAPI.get('/users');
+  //     // console.log(responsePost.data);
+  //     // localStorage.setItem('dataPost', JSON.stringify(responsePost.data));
+  //     // console.log(localStorage);
+  //     dispatch(addPostData(responsePost.data));
 
-      setDataPost(responsePost.data);
-      setDataUser(responseUser.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     // setDataPost(responsePost.data);
+  //     setDataUser(responseUser.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const setPost = async () => {
     try {
       const resUpload = await callAPI.post('/posts', {
@@ -41,11 +46,12 @@ const PostPage = () => {
         body,
       });
       console.log(resUpload);
-      getPost();
+      // getPost();
     } catch (error) {
       console.log(error);
     }
   };
+  console.log(post);
 
   return (
     <div className="w-full h-full min-h-screen px-5 md:px-20 flex bg-gray-100 pt-10 gap-10">
@@ -89,7 +95,7 @@ const PostPage = () => {
         </div>
         <hr className="border w-full" />
         <div className="flex flex-col-reverse items-start justify-start gap-4 mb-10">
-          {dataPost.map((e: any, i: number) => {
+          {post.map((e: any, i: number) => {
             // ? = bersifat query boleh ada boleh ngga
             return (
               <PostCard
